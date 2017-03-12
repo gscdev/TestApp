@@ -15,6 +15,15 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+
+            //set destination folder and apk name
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def fileName = "${defaultConfig.applicationId}-${defaultConfig.versionCode}.apk"
+
+                    output.outputFile = new File(fileName)
+                }
+            }
         }
     }
 
