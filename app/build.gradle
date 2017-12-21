@@ -12,39 +12,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
-    signingConfigs {
-        release {
-            //get signing properties file from command line
-            if (project.hasProperty('signPropsFile')) {
-                def propsFilePath = project.getProperty('signPropsFile')
-
-                def propsFile = new File(propsFilePath)
-
-                if (propsFile.canRead()) {
-                    def props = new Properties()
-                    props.load(new FileInputStream(propsFile))
-
-                    storeFile = file(props['storeFile'])
-                    storePassword = props['storePassword']
-                    keyAlias = props['keyAlias']
-                    keyPassword = props['keyPassword']
-                }
-            }
-        }
-    }
-
     buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+        }
         release {
-            minifyEnabled false
-
-            //set destination folder and apk name
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def fileName = "${defaultConfig.applicationId}-${defaultConfig.versionCode}.apk"
-
-                    output.outputFile = new File(fileName)
-                }
-            }
         }
     }
 
